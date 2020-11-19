@@ -15,16 +15,13 @@ require 'capybara-screenshot/rspec'
 require 'coverage_helper' if ENV['COVERAGE'] == 'true'
 
 Capybara.register_driver :selenium do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities
-                 .chrome(chromeOptions: { w3c: false })
   options = Selenium::WebDriver::Chrome::Options.new(
     args: %w[headless no-sandbox disable-gpu --window-size=1200,1200]
   )
   Capybara::Selenium::Driver.new(app,
                                  browser: :chrome,
                                  options: options,
-                                 clear_local_storage: false, # Persist local storage across tests
-                                 desired_capabilities: capabilities)
+                                 clear_local_storage: false) # Persist local storage across tests
 end
 
 Rails.cache.clear
